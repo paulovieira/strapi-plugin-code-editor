@@ -4,6 +4,7 @@ import App from './containers/App';
 import Initializer from './containers/Initializer';
 import lifecycles from './lifecycles';
 import trads from './translations';
+import CodemirrorEditor from './components/CodemirrorEditor.js'
 
 export default strapi => {
   const pluginDescription = pluginPkg.strapi.description || pluginPkg.description;
@@ -26,27 +27,29 @@ export default strapi => {
     name,
     preventComponentRendering: false,
     trads,
-    menu: {
-      pluginsSectionLinks: [
-        {
-          destination: `/plugins/${pluginId}`,
-          icon,
-          label: {
-            id: `${pluginId}.plugin.name`,
-            defaultMessage: name,
-          },
-          name,
-          permissions: [
-            // Uncomment to set the permissions of the plugin here
-            // {
-            //   action: '', // the action name should be plugins::plugin-name.actionType
-            //   subject: null,
-            // },
-          ],
-        },
-      ],
-    },
+    // menu: {
+    //   pluginsSectionLinks: [
+    //     {
+    //       destination: `/plugins/${pluginId}`,
+    //       icon,
+    //       label: {
+    //         id: `${pluginId}.plugin.name`,
+    //         defaultMessage: name,
+    //       },
+    //       name,
+    //       permissions: [
+    //         // Uncomment to set the permissions of the plugin here
+    //         // {
+    //         //   action: '', // the action name should be plugins::plugin-name.actionType
+    //         //   subject: null,
+    //         // },
+    //       ],
+    //     },
+    //   ],
+    // },
   };
+
+  strapi.registerField({ type: 'textarea', Component: CodemirrorEditor })
 
   return strapi.registerPlugin(plugin);
 };
