@@ -29,11 +29,12 @@ function getParsedOption(key, attribute) {
 
   if (key === 'fontFamily') {
     let allowedFonts = [
-      'fira mono',
-      'fira code',
-      'inconsolata',
-      'roboto mono',
-      'ubuntu mono'
+      'fira mono',  // https://fonts.google.com/specimen/Fira+Mono
+      'fira code',  // https://fonts.google.com/specimen/Fira+Code
+      'inconsolata',  // https://fonts.google.com/specimen/Inconsolata
+      'roboto mono',  // https://fonts.google.com/specimen/Roboto+Mono
+      'ubuntu mono',  // https://fonts.google.com/specimen/Ubuntu+Mono
+      'ibm plex mono'  // https://fonts.google.com/specimen/IBM+Plex+Mono
     ];
 
     return (typeof optionValue === 'string' && allowedFonts.includes(optionValue.toLowerCase())) ? optionValue : defaultOptions[key];
@@ -111,7 +112,7 @@ function adjustFocusStyles(el, hasFocus) {
 
 function loadFont(fontFamily) {
 
-  let id = 'strapi-plugin-code-editor-' + fontFamily.replace(/\s/g, '');
+  let id = 'strapi-plugin-code-editor-' + fontFamily.replace(/\s/g, '-');
   let fontAlreadyLoaded = document.getElementById(id) != null;
 
   if (fontAlreadyLoaded) { return }
@@ -119,31 +120,32 @@ function loadFont(fontFamily) {
   let linkEl = document.createElement('link');
   linkEl.rel = 'stylesheet';
   linkEl.id = id;
-  linkEl.dataset.description = 'this stylesheet inserted dynamically by strapi-plugin-code-editor';
-
-  if (fontFamily === 'fira mono') {
-    // reference: https://fonts.google.com/specimen/Fira+Mono
-    linkEl.href = 'https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap';
-  }
-  else if (fontFamily === 'fira code') {
-    // reference: https://fonts.google.com/specimen/Fira+Code
-    linkEl.href = 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap';
-  }
-  else if (fontFamily === 'inconsolata') {
-    // reference: https://fonts.google.com/specimen/Inconsolata
-    linkEl.href = 'https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;700&display=swap';
-  }
-  else if (fontFamily === 'roboto mono') {
-    // reference: https://fonts.google.com/specimen/Roboto+Mono
-    linkEl.href = 'https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap';
-  }
-  else if (fontFamily === 'ubuntu mono') {
-    // reference: https://fonts.google.com/specimen/Ubuntu+Mono
-    linkEl.href = 'https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;500;700&display=swap';
-  }
-  // other monospace fonts can be added here
+  linkEl.href = getFontHref(fontFamily);
+  linkEl.dataset.description = 'this stylesheet was inserted dynamically by strapi-plugin-code-editor';
   
   document.querySelector('head').appendChild(linkEl);
+}
+
+function getFontHref(font) {
+
+  if (fontFamily === 'fira mono') {
+    return 'https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap';
+  }
+  else if (fontFamily === 'fira code') {
+    return 'https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;700&display=swap';
+  }
+  else if (fontFamily === 'inconsolata') {
+    return 'https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;700&display=swap';
+  }
+  else if (fontFamily === 'roboto mono') {
+    return 'https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap';
+  }
+  else if (fontFamily === 'ubuntu mono') {
+    return 'https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;500;700&display=swap';
+  }
+  else if (fontFamily === 'ibm plex mono') {
+    return 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap';
+  }
 }
 
 export {
