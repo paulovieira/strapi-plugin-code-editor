@@ -24,7 +24,7 @@ function CodemirrorEditor({
 
   let editorParentEl = useRef(null);
   let editorViewInstance = useRef(null);
-  let getOption = key => getParsedOption(key, attribute);
+  let getOption = key => getParsedOption(key, attribute['strapi-plugin-code-editor'] || {});
 
   log('strapi-plugin-code-editor', { label, name, value, attribute, type, other })
 

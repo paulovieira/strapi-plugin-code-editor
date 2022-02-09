@@ -3,6 +3,13 @@
 A strapi plugin that replaces the `<textarea>` element (in the long text fields) by a proper text editor (using CodeMirror 6).
 
 
+## Motivations and use cases
+
+- Much better authoring experience than using the native `<textarea>`! With Codemirror6 we have all the useful features of a modern text editor (such as line numbers, multi-cursor, syntax highlighting, etc). It's also possible to customize the editor with new features (see below)
+- The main use case is when the content is html, which gives some freedom to the editor that adds the content (this works very well when using TailwindCSS or a similar tool)
+- also very useful to author content in raw markdown (using the markdown syntax highlighter provided by codemirror)
+- text fields to store small programming code snippets; the syntax highlighting can be adjusted per-model (that is, it's possible to have a textfield for javascript code snippets, other textfield for rust, etc, and all of them have the correct syntax highlights - see the `lang` option below)
+
 ## Install
 
 This plugin can be installed like any other plugin
