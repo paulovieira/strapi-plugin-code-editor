@@ -10,7 +10,7 @@ import { indentationMarkers } from '@replit/codemirror-indentation-markers';
 //import { abbreviationTracker, expandAbbreviation } from '@emmetio/codemirror6-plugin';
 
 import { getParsedOption, getLangProvider, log, adjustFocusStyles, loadFont } from './helpers.js';
-import extensionsExtra from './extensionsExtra.js';
+import extraCodemirrorExtensions from './extraCodemirrorExtensions.js';
 
 function CodemirrorEditor({
   label,
@@ -225,8 +225,8 @@ function CodemirrorEditor({
       extensions.push(EditorView.lineWrapping);
     }
 
-    if (Array.isArray(extensionsExtra)) {
-      extensions = extensions.concat(extensionsExtra);
+    if (Array.isArray(extraCodemirrorExtensions)) {
+      extensions = extensions.concat(extraCodemirrorExtensions);
     }
 
     let state = EditorState.create({ 
