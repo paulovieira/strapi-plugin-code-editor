@@ -2,12 +2,12 @@ let defaultOptions = {
 	lang: '',
 	height: '400px',
 	fontFamily: '',
-	fontSize: '14px',
+	fontSize: '12px',
 	darkTheme: false,
 	indentWithTab: true,
 	indentationMarkers: true,
 	lineWrapping: true,
-	columnElClass: null,
+	columnElClass: null,  // use 'col-12' for a full-width column
 	// emmet: ...
 }
 

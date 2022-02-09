@@ -126,7 +126,7 @@ function loadFont(fontFamily) {
   document.querySelector('head').appendChild(linkEl);
 }
 
-function getFontHref(font) {
+function getFontHref(fontFamily) {
 
   if (fontFamily === 'fira mono') {
     return 'https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap';
