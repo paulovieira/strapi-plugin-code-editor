@@ -1,6 +1,6 @@
 # strapi-plugin-code-editor
 
-A strapi plugin that replaces the `<textarea>` element (in the long text fields) by a proper text editor (using CodeMirror 6).
+A strapi plugin that replaces the native `<textarea>` element (in the long text fields) by a proper text editor (using CodeMirror 6).
 
 
 ## Motivations and use cases
@@ -60,3 +60,6 @@ Rebuild Strapi
 same methodology as was done for the configuration options
 
 Example:
+
+## Debug mode
+

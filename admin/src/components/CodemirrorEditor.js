@@ -12,16 +12,9 @@ import { indentationMarkers } from '@replit/codemirror-indentation-markers';
 import { getParsedOption, getLangProvider, log, adjustFocusStyles, loadFont } from './helpers.js';
 import extraCodemirrorExtensions from './extraCodemirrorExtensions.js';
 
-function CodemirrorEditor({
-  label,
-  name,
-  value,
-  onChange,
-  attribute,
-  type,
-  ...other
-}) {
+function CodemirrorEditor(props) {
 
+  let { label, name, value, onChange, attribute, type, ...other } = props;
   let editorParentEl = useRef(null);
   let editorViewInstance = useRef(null);
   let getOption = key => getParsedOption(key, attribute['strapi-plugin-code-editor'] || {});
@@ -225,8 +218,9 @@ function CodemirrorEditor({
       extensions.push(EditorView.lineWrapping);
     }
 
-    if (Array.isArray(extraCodemirrorExtensions)) {
-      extensions = extensions.concat(extraCodemirrorExtensions);
+    let _extraCodemirrorExtensions = extraCodemirrorExtensions(props);
+    if (Array.isArray(_extraCodemirrorExtensions)) {
+      extensions = extensions.concat(_extraCodemirrorExtensions);
     }
 
     let state = EditorState.create({ 
