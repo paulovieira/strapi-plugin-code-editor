@@ -63,3 +63,4 @@ Example:
 
 ## Debug mode
 
+TODO: change the gray of the gutter, to have a better contrast in relation to the gray of the strapi componennt

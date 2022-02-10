@@ -166,8 +166,18 @@ function CodemirrorEditor(props) {
       '&': { height: height, fontFamily: 'monospace', fontSize: fontSize },
       '.cm-scroller': { overflow: 'auto' },
       '.cm-line': { fontFamily: 'monospace', fontSize: fontSize },
-      '.cm-line span': { fontFamily: 'monospace', fontSize: fontSize }
+      '.cm-line span': { fontFamily: 'monospace', fontSize: fontSize },
+      '.cm-content': {}
     };
+
+    // when using the light theme, the background color of the content container is gray by default;
+    // this doesn't look good when using a long text inside a strapi component, because the component
+    // itself will have a gray container, so the text editor becomes blended; we prefer to mimic the 
+    // look of the native textarea (that is, white background)
+
+    if (getOption('darkTheme') === false) {
+      themeConfig['.cm-content']['background-color'] = 'white';
+    }
 
     if (fontFamily !== '') {
       themeConfig['&']['fontFamily'] = `'${fontFamily}', monospace`;
