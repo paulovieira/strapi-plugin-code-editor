@@ -167,7 +167,17 @@ function CodemirrorEditor(props) {
       '.cm-scroller': { overflow: 'auto' },
       '.cm-line': { fontFamily: 'monospace', fontSize: fontSize },
       '.cm-line span': { fontFamily: 'monospace', fontSize: fontSize },
-      '.cm-content': {}
+
+      // adjustments for the search panel
+
+      '.cm-button': { fontSize: '100%' },
+      '.cm-textfield': { fontSize: '100%' },
+      ".cm-panel.cm-search": {
+        "& label": { fontSize: "100%" }
+      },
+      ".cm-panel.cm-gotoLine": {
+        "& label": { fontSize: "100%" }
+      }
     };
 
     // when using the light theme, the background color of the content container is gray by default;
@@ -176,7 +186,7 @@ function CodemirrorEditor(props) {
     // look of the native textarea (that is, white background)
 
     if (getOption('darkTheme') === false) {
-      themeConfig['.cm-content']['background-color'] = 'white';
+      themeConfig['&']['background-color'] = 'white';
     }
 
     if (fontFamily !== '') {

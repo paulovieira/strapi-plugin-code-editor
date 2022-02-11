@@ -1,6 +1,6 @@
 let defaultOptions = {
 	lang: '',
-	height: '400px',
+	height: '250px',
 	fontFamily: '',
 	fontSize: '12px',
 	darkTheme: false,
