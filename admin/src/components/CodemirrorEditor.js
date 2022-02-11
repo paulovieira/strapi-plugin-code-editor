@@ -177,7 +177,11 @@ function CodemirrorEditor(props) {
       },
       ".cm-panel.cm-gotoLine": {
         "& label": { fontSize: "100%" }
-      }
+      },
+
+      // adjustments to the gutter
+      
+      ".cm-lineNumbers .cm-gutterElement": { padding: "1px 3px 0 5px", fontSize: "10px" },
     };
 
     // when using the light theme, the background color of the content container is gray by default;
