@@ -31,6 +31,7 @@ function CodemirrorEditor(props) {
     'indentationMarkers': getOption('indentationMarkers'),
     'lineWrapping': getOption('lineWrapping'),
     'columnElClass': getOption('columnElClass'),
+    'singleLine': getOption('singleLine'),
   });
 
   useEffect(function () {
@@ -162,6 +163,9 @@ function CodemirrorEditor(props) {
     let fontFamily = getOption('fontFamily');
     let fontSize = getOption('fontSize');
 
+    // TODO: should be calculated dynamically, to account for different font-size
+    if (getOption('singleLine')) { height = '60px' }
+
     let themeConfig = {
       '&': { height: height, fontFamily: 'monospace', fontSize: fontSize },
       '.cm-scroller': { overflow: 'auto' },
@@ -236,10 +240,17 @@ function CodemirrorEditor(props) {
       extensions.push(indentationMarkers());
     }
 
-    // option: lineWrapping
+    // option: lineWrapping (ignored if singleLine is also used)
 
-    if (getOption('lineWrapping')) {
+    if (getOption('lineWrapping') && !getOption('singleLine')) {
       extensions.push(EditorView.lineWrapping);
+    }
+
+    // option: singleLine
+
+    if (getOption('singleLine')) {
+      // reference: https://discuss.codemirror.net/t/codemirror-6-single-line-and-or-avoid-carriage-return/2979/2
+      extensions.push(EditorState.transactionFilter.of(tr => tr.newDoc.lines > 1 ? [] : tr));
     }
 
     let extraCodemirrorExtensions = getExtraCodemirrorExtensions(props);

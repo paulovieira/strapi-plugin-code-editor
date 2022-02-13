@@ -7,6 +7,7 @@ let defaultOptions = {
 	indentWithTab: true,
 	indentationMarkers: true,
 	lineWrapping: true,
+	singleLine: false,
 	columnElClass: null,  // use 'col-12' for a full-width column
 	// emmet: ...
 }

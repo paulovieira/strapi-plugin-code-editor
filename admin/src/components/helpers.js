@@ -60,6 +60,10 @@ function getParsedOption(key, attribute) {
     return (typeof optionValue === 'boolean') ? optionValue : defaultOptions[key];
   }
 
+  if (key === 'singleLine') {
+    return (typeof optionValue === 'boolean') ? optionValue : defaultOptions[key];
+  }
+  
   if (key === 'columnElClass') {
     // the string given to classList.add must not by empty and can't have space characters
     return (typeof optionValue === 'string' && optionValue !== '' && /\s/.test(optionValue) === false) ? optionValue : defaultOptions[key];
