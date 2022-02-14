@@ -164,11 +164,11 @@ function CodemirrorEditor(props) {
     let fontSize = getOption('fontSize');
 
     // TODO: should be calculated dynamically, to account for different font-size
-    if (getOption('singleLine')) { height = '60px' }
+    if (getOption('singleLine')) { height = '25px' }
 
     let themeConfig = {
-      '&': { height: height, fontFamily: 'monospace', fontSize: fontSize },
-      '.cm-scroller': { overflow: 'auto' },
+      '&': { fontFamily: 'monospace', fontSize: fontSize },
+      '.cm-scroller': { overflow: 'auto', height: height },
       '.cm-line': { fontFamily: 'monospace', fontSize: fontSize },
       '.cm-line span': { fontFamily: 'monospace', fontSize: fontSize },
 
