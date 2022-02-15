@@ -5,6 +5,7 @@ import Initializer from './containers/Initializer';
 import lifecycles from './lifecycles';
 import trads from './translations';
 import CodemirrorEditor from './components/CodemirrorEditor.js'
+import fieldsToRegister from './components/fieldsToRegister.js'
 
 export default strapi => {
   const pluginDescription = pluginPkg.strapi.description || pluginPkg.description;
@@ -49,7 +50,17 @@ export default strapi => {
     // },
   };
 
-  strapi.registerField({ type: 'textarea', Component: CodemirrorEditor })
+  // for "short text"  
+
+  if (fieldsToRegister['text']) {
+    strapi.registerField({ type: 'text', Component: CodemirrorEditor });  
+  }
+  
+  // for "long text"
+
+  if (fieldsToRegister['textarea']) {
+    strapi.registerField({ type: 'textarea', Component: CodemirrorEditor })  
+  }
 
   return strapi.registerPlugin(plugin);
 };

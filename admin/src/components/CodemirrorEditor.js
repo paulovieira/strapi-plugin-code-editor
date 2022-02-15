@@ -31,13 +31,12 @@ function CodemirrorEditor(props) {
     'indentationMarkers': getOption('indentationMarkers'),
     'lineWrapping': getOption('lineWrapping'),
     'columnElClass': getOption('columnElClass'),
-    'singleLine': getOption('singleLine'),
   });
 
   useEffect(function () {
 
     log('useEffect0', Date.now(), { name, value, editorParentEl });
-
+    //debugger;
     // create the editor with an empty initial state; it will be replaced
     // immediatelly in the other effect
 
@@ -164,7 +163,7 @@ function CodemirrorEditor(props) {
     let fontSize = getOption('fontSize');
 
     // TODO: should be calculated dynamically, to account for different font-size
-    if (getOption('singleLine')) { height = '25px' }
+    if (type === 'text') { height = '25px' }
 
     let themeConfig = {
       '&': { fontFamily: 'monospace', fontSize: fontSize },
@@ -218,7 +217,7 @@ function CodemirrorEditor(props) {
 
     let keybindings = [];
 
-    if (getOption('indentWithTab')) {
+    if (getOption('indentWithTab') && type === 'textarea') {
       keybindings.push(indentWithTab);
     }
 
@@ -236,19 +235,19 @@ function CodemirrorEditor(props) {
 
     // option: indentationMarkers
 
-    if (getOption('indentationMarkers')) {
+    if (getOption('indentationMarkers') && type === 'textarea') {
       extensions.push(indentationMarkers());
     }
 
-    // option: lineWrapping (ignored if singleLine is also used)
+    // option: lineWrapping
 
-    if (getOption('lineWrapping') && !getOption('singleLine')) {
+    if (getOption('lineWrapping') && type === 'textarea') {
       extensions.push(EditorView.lineWrapping);
     }
 
-    // option: singleLine
+    // for "short text", we are trying to mimic a <input type="text"> (that is, a single-line editor)
 
-    if (getOption('singleLine')) {
+    if (type === 'text') {
       // reference: https://discuss.codemirror.net/t/codemirror-6-single-line-and-or-avoid-carriage-return/2979/2
       extensions.push(EditorState.transactionFilter.of(tr => tr.newDoc.lines > 1 ? [] : tr));
     }
