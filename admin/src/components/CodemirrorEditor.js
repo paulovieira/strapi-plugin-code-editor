@@ -1,14 +1,34 @@
 import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Label, Padded, InputText, Textarea } from '@buffetjs/core';
-import {EditorState, basicSetup} from '@codemirror/basic-setup';
+
+import {basicSetup} from '@codemirror/basic-setup';
 import {EditorView, keymap } from '@codemirror/view';
 import {indentWithTab} from '@codemirror/commands';
 import {oneDark} from '@codemirror/theme-one-dark';
+
+import {highlightSpecialChars, drawSelection} from "@codemirror/view"
+// import {highlightActiveLine, dropCursor} from "@codemirror/view"
+import {EditorState, Extension} from "@codemirror/state"
+import {history, historyKeymap} from "@codemirror/history"
+// import {foldGutter, foldKeymap} from "@codemirror/fold"
+// import {indentOnInput} from "@codemirror/language"
+// import {lineNumbers, highlightActiveLineGutter} from "@codemirror/gutter"
+import {defaultKeymap} from "@codemirror/commands"
+import {bracketMatching} from "@codemirror/matchbrackets"
+import {closeBrackets, closeBracketsKeymap} from "@codemirror/closebrackets"
+import {searchKeymap, highlightSelectionMatches} from "@codemirror/search"
+import {autocompletion, completionKeymap} from "@codemirror/autocomplete"
+// import {commentKeymap} from "@codemirror/comment"
+// import {rectangularSelection} from "@codemirror/rectangular-selection"
+import {defaultHighlightStyle} from "@codemirror/highlight"
+// import {lintKeymap} from "@codemirror/lint"
+
+
 import { indentationMarkers } from '@replit/codemirror-indentation-markers';
 //import { abbreviationTracker, expandAbbreviation } from '@emmetio/codemirror6-plugin';
 
-import { getParsedOption, getLangProvider, log, adjustFocusStyles, loadFont } from './helpers.js';
+import { getParsedOption, getLangProvider, log, adjustFocusStyles, loadFont, isEditingUserContent } from './helpers.js';
 import getExtraCodemirrorExtensions from './getExtraCodemirrorExtensions.js';
 
 function CodemirrorEditor(props) {
@@ -20,10 +40,8 @@ function CodemirrorEditor(props) {
   // are not related to user content)
 
   // in those cases we fallback to the default Input component ;
-
-  let isEditingUserContent = (props.attribute != null);
-
-  if (!isEditingUserContent) {
+  
+  if (!isEditingUserContent(props.attribute)) {
 
     log('fallback to the buffetjs component', { props })
     let InputComponent = (type === 'text') ? InputText : Textarea;
@@ -139,7 +157,40 @@ function CodemirrorEditor(props) {
     // the @codemirror/basic-setup extension is always used:
     // https://codemirror.net/6/docs/ref/#basic-setup
 
-    extensions.push(basicSetup);
+    if (type === 'textarea') {
+      extensions.push(basicSetup);  
+    }
+    else {
+      extensions.push(
+        // lineNumbers(),
+        // highlightActiveLineGutter(),
+        highlightSpecialChars(),
+        history(),
+        // foldGutter(),
+        drawSelection(),
+        // dropCursor(),
+        EditorState.allowMultipleSelections.of(true),
+        // indentOnInput(),
+        defaultHighlightStyle.fallback,
+        bracketMatching(),
+        closeBrackets(),
+        autocompletion(),
+        // rectangularSelection(),
+        // highlightActiveLine(),
+        highlightSelectionMatches(),
+        keymap.of([
+          ...closeBracketsKeymap,
+          ...defaultKeymap,
+          ...searchKeymap,
+          ...historyKeymap,
+          // ...foldKeymap,
+          // ...commentKeymap,
+          ...completionKeymap,
+          // ...lintKeymap
+        ])
+      )
+    }
+    
 
     // "register a function to be called every time the view updates"
     // https://codemirror.net/6/docs/ref/#view.EditorView^updateListener
@@ -168,8 +219,11 @@ function CodemirrorEditor(props) {
 
     }));
 
-    // the other selected extensions can be loaded or not, depending on the respective option values 
-    // (given in the *.settings.json files)
+    // the other selected extensions can be loaded or not, depending on the respective options that can be set
+    // in the configuration for the respective field in the models and/or component, that is, files in these directories:
+    //
+    // api/*/models/*.settings.json
+    // components/*/*.json 
 
     // option: lang
     

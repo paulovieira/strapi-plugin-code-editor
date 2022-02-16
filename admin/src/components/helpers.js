@@ -15,6 +15,28 @@ import {lezer} from '@codemirror/lang-lezer';
 
 import defaultOptions from './defaultOptions.js';
 
+function isEditingUserContent(attribute = {}) {
+
+  /*
+
+  attributes should be an object with a shape like this:
+
+  { "type": "string" }
+
+  or this
+
+  { "type": "component", "repeatable": false, "component": "default.text-block" }
+
+  they are defined in files in these directories
+
+  api/ * /models/*.settings.json
+  components/ * /*.json 
+
+  */
+
+  return attribute['type'] != null
+}
+
 function getParsedOption(key, attribute = {}) {
 
   let optionValue = attribute[key];
@@ -152,10 +174,12 @@ function getFontHref(fontFamily) {
   }
 }
 
+
 export {
-	getParsedOption,
-	log,
-	getLangProvider,
-	adjustFocusStyles,
-	loadFont
+  isEditingUserContent,
+  getParsedOption,
+  log,
+  getLangProvider,
+  adjustFocusStyles,
+  loadFont
 }
