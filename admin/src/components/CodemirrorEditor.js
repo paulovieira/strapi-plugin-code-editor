@@ -33,6 +33,8 @@ import getExtraCodemirrorExtensions from './getExtraCodemirrorExtensions.js';
 
 function CodemirrorEditor(props) {
 
+  let { label, name, value, onChange, type, attribute, ...other } = props;
+
   // first detect if we are actually editing user content (collection types or single types);
   // since our component has overriden the default Input component for 'textarea' and 'text'
   // (from buffetjs), it means that we are now responsible for every other text field in strapi! 
@@ -41,17 +43,16 @@ function CodemirrorEditor(props) {
 
   // in those cases we fallback to the default Input component ;
   
-  if (!isEditingUserContent(props.attribute)) {
+  if (!isEditingUserContent(attribute)) {
 
     log('fallback to the buffetjs component', { props })
-    let InputComponent = (type === 'text') ? InputText : Textarea;
+    let InputComponent = (type === 'textarea') ? Textarea : InputText;
 
     return (
       <InputComponent {...props} />
     )
   }
-
-  let { label, name, value, onChange, type, attribute, ...other } = props;
+  
   let editorParentEl = useRef(null);
   let editorViewInstance = useRef(null);
   let getOption = key => getParsedOption(key, attribute['strapi-plugin-code-editor']);
