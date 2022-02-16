@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
-import { Label, Padded } from '@buffetjs/core';
-
+import { Label, Padded, InputText, Textarea } from '@buffetjs/core';
 import {EditorState, basicSetup} from '@codemirror/basic-setup';
 import {EditorView, keymap } from '@codemirror/view';
 import {indentWithTab} from '@codemirror/commands';
@@ -14,10 +13,34 @@ import getExtraCodemirrorExtensions from './getExtraCodemirrorExtensions.js';
 
 function CodemirrorEditor(props) {
 
-  let { label, name, value, onChange, attribute, type, ...other } = props;
+
+  let { label, name, value, onChange, type, attribute, ...other } = props;
+
+  // TODO: detect if strapi is trying to use...
+
+  let isEditingUserContent = (attribute != null);
+
+  if (!isEditingUserContent) {
+
+    console.log('using the default input from strapi', { props })
+    let InputComponent = (type === 'text') ? InputText : Textarea;
+
+    return (
+
+      <InputComponent
+        name={name}
+        onChange={onChange}
+        type={type}
+        value={value}
+        {...other}
+      />
+
+    )
+  }
+
   let editorParentEl = useRef(null);
   let editorViewInstance = useRef(null);
-  let getOption = key => getParsedOption(key, attribute['strapi-plugin-code-editor'] || {});
+  let getOption = key => getParsedOption(key, attribute['strapi-plugin-code-editor']);
 
   log('strapi-plugin-code-editor', { label, name, value, attribute, type, other })
 
@@ -34,6 +57,8 @@ function CodemirrorEditor(props) {
   });
 
   useEffect(function () {
+
+    if (attribute == null) { return }
 
     log('useEffect0', Date.now(), { name, value, editorParentEl });
     //debugger;
@@ -75,6 +100,8 @@ function CodemirrorEditor(props) {
 
     return function onDestroy() { 
       
+      if (attribute == null) { return }
+
       log('useEffect0 onDestroy');
 
       editorViewInstance.current.destroy();
@@ -83,6 +110,8 @@ function CodemirrorEditor(props) {
   }, [])
 
   useEffect(function () {
+
+    if (attribute == null) { return }
 
     log('useEffect1', Date.now(), { name, value, editorParentEl });
 
@@ -127,10 +156,11 @@ function CodemirrorEditor(props) {
 
       if (!viewUpdate.docChanged) { return }
 
-      // the 'type' prop is the string 'textarea', which probably comes from the type used in strapi.registerField;
-      // however, in the *.settings.json files we have "type": "text"
+      // the onChange handler seems to be defined in 
+      // packages/strapi-plugin-content-manager/admin/src/containers/EditViewDataManagerProvider/index.js
 
-      // QUESTION: which one should we be using? does it make a difference?
+      // the 'type' prop is used to handle some special cases, but only when type is one of these:
+      // 'date', 'password', 'select-one' or 'number'
 
       onChange({
         target: {

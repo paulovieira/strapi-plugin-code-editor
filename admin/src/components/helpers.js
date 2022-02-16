@@ -15,7 +15,7 @@ import {lezer} from '@codemirror/lang-lezer';
 
 import defaultOptions from './defaultOptions.js';
 
-function getParsedOption(key, attribute) {
+function getParsedOption(key, attribute = {}) {
 
   let optionValue = attribute[key];
 
