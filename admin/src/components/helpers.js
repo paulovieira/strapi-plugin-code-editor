@@ -13,7 +13,22 @@ import {wast} from '@codemirror/lang-wast';
 import {cpp} from '@codemirror/lang-cpp';
 import {lezer} from '@codemirror/lang-lezer';
 
-import defaultOptions from './defaultOptions.js';
+import customDefaultOptions from './customDefaultOptions.js';
+
+let hardcodedDefaultOptions = {
+  lang: '',
+  height: '250px',
+  fontFamily: '',
+  fontSize: '12px',
+  darkTheme: false,
+  indentWithTab: true,
+  indentationMarkers: true,
+  lineWrapping: true,
+  columnElClass: null,  // use 'col-12' for a full-width column
+  // emmet: ...
+}
+
+let defaultOptions = Object.assign({}, hardcodedDefaultOptions, customDefaultOptions);
 
 function isEditingUserContent(attribute = {}) {
 
