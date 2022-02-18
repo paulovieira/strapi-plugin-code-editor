@@ -65,7 +65,6 @@ Example:
 
 TODO: change the gray of the gutter, to have a better contrast in relation to the gray of the strapi componennt
 TODO: for the single-line editor (short text), don't install the basicSetup extension from
-
-https://github.com/codemirror/basic-setup
-
-instead of that, we should install directly the relevant packages (example: history)
+TODO: short text is stored internally as varchar(255)
+TODO: import the css border colors from an option (for the focus)
+TODO: the configuration files should all be in admin/config (or just config?)

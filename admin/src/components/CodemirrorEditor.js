@@ -6,6 +6,12 @@ import {basicSetup} from '@codemirror/basic-setup';
 import {EditorView, keymap } from '@codemirror/view';
 import {indentWithTab} from '@codemirror/commands';
 import {oneDark} from '@codemirror/theme-one-dark';
+import { indentationMarkers } from '@replit/codemirror-indentation-markers';
+
+//import { abbreviationTracker, expandAbbreviation } from '@emmetio/codemirror6-plugin';
+
+// the imports below are not present in package.json, but they are 
+// in @codemirror/basic-setup
 
 import {highlightSpecialChars, drawSelection} from "@codemirror/view"
 // import {highlightActiveLine, dropCursor} from "@codemirror/view"
@@ -24,11 +30,7 @@ import {autocompletion, completionKeymap} from "@codemirror/autocomplete"
 import {defaultHighlightStyle} from "@codemirror/highlight"
 // import {lintKeymap} from "@codemirror/lint"
 
-
-import { indentationMarkers } from '@replit/codemirror-indentation-markers';
-//import { abbreviationTracker, expandAbbreviation } from '@emmetio/codemirror6-plugin';
-
-import { getParsedOption, getLangProvider, log, adjustFocusStyles, loadFont, isEditingUserContent } from './helpers.js';
+import { availableLanguages, isEditingUserContent, getParsedOption, log, adjustFocusStyles, loadFont,  } from './helpers.js';
 import getExtraCodemirrorExtensions from './getExtraCodemirrorExtensions.js';
 
 function CodemirrorEditor(props) {
@@ -55,7 +57,7 @@ function CodemirrorEditor(props) {
   
   let editorParentEl = useRef(null);
   let editorViewInstance = useRef(null);
-  let getOption = key => getParsedOption(key, attribute['strapi-plugin-code-editor']);
+  let getOption = key => getParsedOption(key, name, attribute);
 
   log('strapi-plugin-code-editor', { label, name, value, attribute, type, other })
 
@@ -227,11 +229,11 @@ function CodemirrorEditor(props) {
     // components/*/*.json 
 
     // option: lang
-    
-    let langProvider = getLangProvider(getOption('lang'));
 
-    if (langProvider != null) {
-      extensions.push(langProvider()) 
+    let language = availableLanguages[getOption('lang')];
+
+    if (language != null) {
+      extensions.push(language) 
     }
     
     // option: height, fontFamily and fontSize

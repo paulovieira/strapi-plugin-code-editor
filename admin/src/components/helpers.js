@@ -1,19 +1,9 @@
-import {html} from '@codemirror/lang-html';
-import {markdown} from '@codemirror/lang-markdown';
-import {javascript} from '@codemirror/lang-javascript';
-import {json} from '@codemirror/lang-json';
-import {sql} from '@codemirror/lang-sql';
-import {php} from '@codemirror/lang-php';
-import {rust} from '@codemirror/lang-rust';
-import {python} from '@codemirror/lang-python';
-import {java} from '@codemirror/lang-java';
-import {css} from '@codemirror/lang-css';
-import {xml} from '@codemirror/lang-xml';
-import {wast} from '@codemirror/lang-wast';
-import {cpp} from '@codemirror/lang-cpp';
-import {lezer} from '@codemirror/lang-lezer';
-
 import customDefaultOptions from './customDefaultOptions.js';
+import languages from './languages.js';
+import legacyLanguageModes from './legacyLanguageModes.js';
+
+let customLanguages = {};  // should go to config
+let availableLanguages = Object.assign({}, legacyLanguageModes, languages, customLanguages);
 
 let hardcodedDefaultOptions = {
   lang: '',
@@ -34,7 +24,7 @@ function isEditingUserContent(attribute = {}) {
 
   /*
 
-  attributes should be an object with a shape like this:
+  attribute should be an object with a shape like this:
 
   { "type": "string" }
 
@@ -52,16 +42,19 @@ function isEditingUserContent(attribute = {}) {
   return attribute['type'] != null
 }
 
-function getParsedOption(key, attribute = {}) {
+function getParsedOption(key, fieldName, attribute = {}) {
 
-  let optionValue = attribute[key];
+  console.log('!!!', { fieldName, attribute })
+
+  let fieldCustomOptions = attribute['strapi-plugin-code-editor'] || {};
+  let optionValue = fieldCustomOptions[key];
 
   if (key === 'lang') {
-    return (typeof optionValue === 'string') ? optionValue.toLowerCase() : defaultOptions[key];
+    return (typeof optionValue === 'string') ? optionValue : defaultOptions[key];
   }
 
   if (key === 'height') {
-    return (typeof optionValue === 'string') ? optionValue.toLowerCase() : defaultOptions[key];
+    return (typeof optionValue === 'string') ? optionValue : defaultOptions[key];
   }
 
   if (key === 'fontFamily') {
@@ -78,7 +71,7 @@ function getParsedOption(key, attribute = {}) {
   }
 
   if (key === 'fontSize') {
-    return (typeof optionValue === 'string') ? optionValue.toLowerCase() : defaultOptions[key];
+    return (typeof optionValue === 'string') ? optionValue : defaultOptions[key];
   }
 
   if (key === 'darkTheme') {
@@ -115,24 +108,7 @@ function getParsedOption(key, attribute = {}) {
   throw new Error('invalid option: ' + key);
 }
 
-function getLangProvider(lang) {
 
-  if (lang === 'html') { return html }
-  else if (lang === 'markdown') { return markdown }
-  else if (lang === 'javascript') { return javascript }
-  else if (lang === 'json') { return json }
-  else if (lang === 'sql') { return sql }
-  else if (lang === 'php') { return php }
-  else if (lang === 'rust') { return rust }
-  else if (lang === 'python') { return python }
-  else if (lang === 'java') { return java }
-  else if (lang === 'css') { return css }
-  else if (lang === 'xml') { return xml }
-  else if (lang === 'wast') { return wast }
-  else if (lang === 'cpp') { return cpp }
-  else if (lang === 'lezer') { return lezer }
-  else { return null }
-}
 
 function log(message, ...rest) {
 
@@ -191,10 +167,10 @@ function getFontHref(fontFamily) {
 
 
 export {
+  availableLanguages,
   isEditingUserContent,
   getParsedOption,
   log,
-  getLangProvider,
   adjustFocusStyles,
   loadFont
 }
