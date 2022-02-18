@@ -50,7 +50,11 @@ function getParsedOption(key, fieldName, attribute = {}) {
   let optionValue = fieldCustomOptions[key];
 
   if (key === 'lang') {
-    return (typeof optionValue === 'string') ? optionValue : defaultOptions[key];
+    return (typeof optionValue === 'string') 
+      ? optionValue 
+      : (typeof defaultOptions[key] === 'function')
+        ? defaultOptions[key](fieldName, attribute)
+        : defaultOptions[key];
   }
 
   if (key === 'height') {
