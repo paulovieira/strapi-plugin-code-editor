@@ -42,9 +42,7 @@ function isEditingUserContent(attribute = {}) {
   return attribute['type'] != null
 }
 
-function getParsedOption(key, fieldName, attribute = {}) {
-
-  console.log('!!!', { fieldName, attribute })
+function getParsedOption(key, value, fieldName, attribute = {}) {
 
   let fieldCustomOptions = attribute['strapi-plugin-code-editor'] || {};
   let optionValue = fieldCustomOptions[key];
@@ -53,7 +51,7 @@ function getParsedOption(key, fieldName, attribute = {}) {
     return (typeof optionValue === 'string') 
       ? optionValue 
       : (typeof defaultOptions[key] === 'function')
-        ? defaultOptions[key](fieldName, attribute)
+        ? defaultOptions[key](value, fieldName, attribute)
         : defaultOptions[key];
   }
 
