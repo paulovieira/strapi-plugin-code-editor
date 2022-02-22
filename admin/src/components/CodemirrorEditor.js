@@ -61,23 +61,24 @@ function CodemirrorEditor(props) {
 
   log('strapi-plugin-code-editor', { label, name, value, attribute, type, other })
 
-  log('parsed options', {
-    'lang': getOption('lang'),
-    'height': getOption('height'),
-    'fontFamily': getOption('fontFamily'),
-    'fontSize': getOption('fontSize'),
-    'darkTheme': getOption('darkTheme'),
-    'indentWithTab': getOption('indentWithTab'),
-    'indentationMarkers': getOption('indentationMarkers'),
-    'lineWrapping': getOption('lineWrapping'),
-    'columnElClass': getOption('columnElClass'),
-  });
-
   useEffect(function () {
 
     if (attribute == null) { return }
 
     log('useEffect0', Date.now(), { name, value, editorParentEl });
+
+    log('parsed options', {
+      'lang': getOption('lang'),
+      'height': getOption('height'),
+      'fontFamily': getOption('fontFamily'),
+      'fontSize': getOption('fontSize'),
+      'darkTheme': getOption('darkTheme'),
+      'indentWithTab': getOption('indentWithTab'),
+      'indentationMarkers': getOption('indentationMarkers'),
+      'lineWrapping': getOption('lineWrapping'),
+      'columnElClass': getOption('columnElClass'),
+    });
+  
     //debugger;
     // create the editor with an empty initial state; it will be replaced
     // immediatelly in the other effect
