@@ -15,7 +15,7 @@ import {wast} from '@codemirror/lang-wast';
 import {xml} from '@codemirror/lang-xml';
 
 let languages = {
-  'cpp': cpp()
+  'cpp': cpp(),
   'css': css(),
   'html': html(),
   'java': java(),
