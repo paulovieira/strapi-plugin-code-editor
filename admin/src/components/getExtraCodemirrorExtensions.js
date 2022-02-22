@@ -1,3 +1,6 @@
-export default function(props) {
+function getExtraCodemirrorExtensions(props) {
+	
 	return [];	
 }
+
+export default getExtraCodemirrorExtensions;

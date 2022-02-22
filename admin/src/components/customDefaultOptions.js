@@ -4,4 +4,6 @@
 // more details here: Development -> Strapi plugins
 // https://docs-v3.strapi.io/developer-docs/latest/development/plugin-customization.html
 
-export default {};
+let customDefaultOptions = {}
+
+export default customDefaultOptions;

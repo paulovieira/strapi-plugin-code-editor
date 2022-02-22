@@ -20,7 +20,8 @@
     "@codemirror/theme-one-dark": "^0.19.1",
     "@codemirror/view": "^0.19.42",
     "@emmetio/codemirror6-plugin": "0.0.6",
-    "@replit/codemirror-indentation-markers": "^0.19.0"
+    "@replit/codemirror-indentation-markers": "^0.19.0",
+    "@sgarciac/cm_toml_mode": "^1.2.0"
   },
   "author": {
     "name": "A Strapi developer",
